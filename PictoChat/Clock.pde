@@ -1,15 +1,132 @@
 import java.util.Calendar;
+Cal cal;
 
-static class Date{
-  static private int dayOfWeek=0;
-  static int getDayOfWeek(){
-    if(dayOfWeek==0||Time.newDay()){
-      Calendar c=Calendar.getInstance();
-      dayOfWeek=c.get(Calendar.DAY_OF_WEEK);
+class Cal{
+  private int dayOfWeek=-1;
+  private int getDayOfWeek(){
+    Calendar c=Calendar.getInstance();
+    return c.get(Calendar.DAY_OF_WEEK);
+  }
+  private boolean init=false;
+  private PGraphics calendar;
+  private int today;
+  private boolean isleap(int year){
+    return (year%4==0)&&(year%100!=0)||(year%400==0);
+  }
+  private int days_in_month(int month){
+    switch(month){
+      case 9:
+      case 4:
+      case 6:
+      case 11:
+        return 30;
+      case 2:
+        return (isleap(year())?29:28);
+      default:
+        return 31;
     }
-    return dayOfWeek;
+  }
+  
+  int tintAndOffset(int day, int today){
+    if(day==0){
+      calendar.tint(121,0,0);
+    }
+    else if(day==6){
+      calendar.tint(0,0,129);
+    }
+    else{
+      calendar.tint(48);
+    }
+    int offset;
+    if(today>9&&today<20){
+      offset=2;
+    }
+    else if(today>19){
+      offset=3;
+    }
+    else{
+      offset=0;
+    }
+    return offset;
+  }
+  PImage getCalendarImg(){
+    boolean newDay=Time.newDay();
+    if(newDay){
+      dayOfWeek=-1;
+      init=false;
+    }
+    if(dayOfWeek==-1){
+      dayOfWeek=getDayOfWeek();
+    }
+    if(!init){
+      calendar=createGraphics(115,114);
+      calendar.beginDraw();
+      println(dayOfWeek);
+      int day=dayOfWeek-1;
+      int offset;
+      int line;
+      today=day();
+      int m_days=days_in_month(month());
+      calendar.image(getImage(ASSET_CODE.DATE_SELECTION),(16*day)+2,((((today-day)/7)+1)*16)+34);
+      for(int i=0;i<7;i++){
+        offset=tintAndOffset(day, today);
+        line=(((today-day)/7)+1);
+        if(offset!=0){
+          calendar.image(getImage(small_letter_a_code(today/10)),(16*day)-offset+7,(line*16)+37);
+        }
+        if(offset==3) offset--;
+        calendar.image(getImage(small_letter_a_code(today%10)),(16*day)+offset+7,(line*16)+37);
+        int back=today-7;
+        int t_line=line;
+        while(back>0){
+          offset=tintAndOffset(day,back);
+          t_line--;
+          if(offset!=0){
+            calendar.image(getImage(small_letter_a_code(back/10)),(16*day)-offset+7,(t_line*16)+37);
+          }
+          if(offset==3) offset--;
+          calendar.image(getImage(small_letter_a_code(back%10)),(16*day)+offset+7,(t_line*16)+37);
+          back-=7;
+        }
+        int forward=today+7;
+        t_line=line;
+        while(forward<=m_days){
+          offset=tintAndOffset(day,forward);
+          t_line++;
+          if(offset!=0){
+            calendar.image(getImage(small_letter_a_code(forward/10)),(16*day)-offset+7,(t_line*16)+37);
+          }
+          if(offset==3) offset--;
+          calendar.image(getImage(small_letter_a_code(forward%10)),(16*day)+offset+7,(t_line*16)+37);
+          forward+=7;
+        }
+        today--;
+        day--;
+        if(day==-1){
+          day=6;
+          today+=7;
+        }
+      }
+      calendar.noTint();
+      calendar.endDraw();
+      init=true;
+    }
+    Date.updateDate();
+    return calendar;
   }
 }
+
+static class Date{
+  static int month;
+  static int day;
+  static int year;
+  static void updateDate(){
+    month=month();
+    day=day();
+    year=year();
+  }
+}
+
 static class Time{
   static int hour;
   static int minute;
@@ -75,5 +192,6 @@ void displayTime(){
   text("1", 198, 44);//y
   text("8", 204, 44);//y
   fill(255);
-  text("this bitch empty, yeet", 4,12);
+  image(cal.getCalendarImg(),127,31);
+  println("x: "+mouseX+" y: "+mouseY);
 }

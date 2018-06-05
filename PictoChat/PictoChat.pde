@@ -14,6 +14,7 @@ static class Program{ //default states
   static Animation animation=Animation.FADE_IN;
   static int animationCounter=24;
   static Display display;
+  static String name = "Todd Howard's DS";
 }
 
 class Display{
@@ -52,6 +53,8 @@ class Display{
               image(getImage(ASSET_CODE.ALARM_OFF),237,367);
               noTint();
               image(getImage(ASSET_CODE.STATUSBAR),0,-Program.animationCounter); //drags in statusbar
+              fill(255);
+              text(Program.name, 4,12-Program.animationCounter);
               if(Program.animationCounter==0){ //when animation ends move to menu state
                 Program.animation=Animation.NONE;
                 Program.state=State.MENU;
@@ -79,6 +82,16 @@ class Display{
           image(getImage(ASSET_CODE.OPTIONS),117,362);
           image(getImage(ASSET_CODE.ALARM_OFF),237,367);
           image(getImage(ASSET_CODE.STATUSBAR),0,0); //drags in statusbar
+          image(getImage(small_letter_a_code(Time.hour/10)),148,4);//h
+          image(getImage(small_letter_a_code(Time.hour%10)),153,4);//h
+          image(getImage(small_letter_a_code(Time.minute/10)),162,4);//m
+          image(getImage(small_letter_a_code(Time.minute%10)),167,4);//m
+          image(getImage(small_letter_a_code(Date.month/10)),178,4);
+          image(getImage(small_letter_a_code(Date.month%10)),183,4);
+          image(getImage(small_letter_a_code(Date.day/10)),194,4);
+          image(getImage(small_letter_a_code(Date.day%10)),199,4);
+          fill(255);
+          text(Program.name, 4,12);
           displayTime();
           break;
         default:
@@ -95,6 +108,7 @@ void setup(){
   load();
   Program.display = new Display();
   Program.display.invalidate();
+  cal=new Cal();
   tint(255,0);
   noSmooth();
 }
@@ -113,4 +127,5 @@ void draw(){
     Program.animationCounter--;
     Program.display.invalidate();
   }
+  //Program.display.invalidate(); //debug always render
 }

@@ -9,7 +9,7 @@ PFont nds;
 
 //startup
 void load(){
-  Assets=new PImage[27];
+  Assets=new PImage[28];
   loadAssets();
   Audio=new AudioPlayer[1];
   loadSounds();
@@ -45,7 +45,8 @@ public enum ASSET_CODE{
   SMALLF_6,
   SMALLF_7,
   SMALLF_8,
-  SMALLF_9
+  SMALLF_9,
+  DATE_SELECTION
 }
 void loadAssets(){
   Assets[0] = loadImage("image/DSBackground.png");
@@ -69,6 +70,7 @@ void loadAssets(){
   for(int i=0; i<10;i++){
     Assets[17+i]=SmallNumbers.get(4*i,0,4,7);
   }
+  Assets[27] = loadImage("image/Date_Selection.png");
 }
 
 //audio asset initialization
@@ -91,4 +93,31 @@ void playAudio(AUDIO_CODE code){
 
 PImage getImage(ASSET_CODE code){
   return Assets[code.ordinal()];
+}
+
+private ASSET_CODE small_letter_a_code(int in){
+  switch(in){
+    case 0:
+      return ASSET_CODE.SMALLF_0;
+    case 1:
+      return ASSET_CODE.SMALLF_1;
+    case 2:
+      return ASSET_CODE.SMALLF_2;
+    case 3:
+      return ASSET_CODE.SMALLF_3;
+    case 4:
+      return ASSET_CODE.SMALLF_4;
+    case 5:
+      return ASSET_CODE.SMALLF_5;
+    case 6:
+      return ASSET_CODE.SMALLF_6;
+    case 7:
+      return ASSET_CODE.SMALLF_7;
+    case 8:
+      return ASSET_CODE.SMALLF_8;
+    case 9:
+      return ASSET_CODE.SMALLF_9;
+    default:
+      return ASSET_CODE.ALARM_OFF;
+  }
 }
