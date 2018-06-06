@@ -11,7 +11,7 @@ PImage Buffer;
 
 //startup
 void load(){
-  Assets=new PImage[29];
+  Assets=new PImage[33];
   loadAssets();
   Audio=new AudioPlayer[2];
   loadSounds();
@@ -50,6 +50,10 @@ public enum ASSET_CODE{
   SMALLF_9,
   DATE_SELECTION,
   PICTOBACKGROUND,
+  PICTO_MENU_BARS,
+  CHAT_ROOM,
+  PICTO_FIRST_MESSAGE,
+  SCROLLBAR
 }
 void loadAssets(){
   Assets[0] = loadImage("image/DSBackground.png");
@@ -75,6 +79,10 @@ void loadAssets(){
   }
   Assets[27] = loadImage("image/Date_Selection.png");
   Assets[28] = loadImage("image/PictoChatBackground.png");
+  Assets[29] = loadImage("image/Picto-Menu-Bars.png");
+  Assets[30] = loadImage("image/Chat-Room.png");
+  Assets[31] = loadImage("image/Picto-First-Message.png");
+  Assets[32] = loadImage("image/ScrollBar.png");
 }
 
 //audio asset initialization
