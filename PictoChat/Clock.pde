@@ -184,13 +184,13 @@ void displayTime(){
   noStroke();
   rect(61,93,5,5);
   fill(73);
-  text("0", 158, 44);//m
-  text("6", 166, 44);//m
+  text(Date.month/10, 158, 44);//m
+  text(Date.month%10, 166, 44);//m
   text("/", 175, 44);///
-  text("2", 182, 44);//y
-  text("0", 190, 44);//y
-  text("1", 198, 44);//y
-  text("8", 204, 44);//y
+  text(Date.year/1000, 182, 44);//y
+  text((Date.year/100)%10, 190, 44);//y
+  text((Date.year/10)%10, 198, 44);//y
+  text(Date.year%10, 204, 44);//y
   fill(255);
   image(cal.getCalendarImg(),127,31);
   println("x: "+mouseX+" y: "+mouseY);

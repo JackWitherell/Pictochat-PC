@@ -7,11 +7,13 @@ PImage [] Assets;
 
 PFont nds;
 
+PImage Buffer;
+
 //startup
 void load(){
-  Assets=new PImage[28];
+  Assets=new PImage[29];
   loadAssets();
-  Audio=new AudioPlayer[1];
+  Audio=new AudioPlayer[2];
   loadSounds();
   nds= createFont("Data/font/Nintendo-DS-BIOS.ttf",16);
   textFont(nds);
@@ -46,7 +48,8 @@ public enum ASSET_CODE{
   SMALLF_7,
   SMALLF_8,
   SMALLF_9,
-  DATE_SELECTION
+  DATE_SELECTION,
+  PICTOBACKGROUND,
 }
 void loadAssets(){
   Assets[0] = loadImage("image/DSBackground.png");
@@ -71,14 +74,17 @@ void loadAssets(){
     Assets[17+i]=SmallNumbers.get(4*i,0,4,7);
   }
   Assets[27] = loadImage("image/Date_Selection.png");
+  Assets[28] = loadImage("image/PictoChatBackground.png");
 }
 
 //audio asset initialization
 public enum AUDIO_CODE{
-  TICK
+  TICK,
+  START
 }
 void loadSounds(){
   Audio[0]=minim.loadFile("audio/tick.wav");
+  Audio[1]=minim.loadFile("audio/start.wav");
 }
 
 //interact with assets
