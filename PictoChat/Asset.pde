@@ -11,7 +11,7 @@ PImage Buffer;
 
 //startup
 void load(){
-  Assets=new PImage[33];
+  Assets=new PImage[35];
   loadAssets();
   Audio=new AudioPlayer[2];
   loadSounds();
@@ -53,7 +53,9 @@ public enum ASSET_CODE{
   PICTO_MENU_BARS,
   CHAT_ROOM,
   PICTO_FIRST_MESSAGE,
-  SCROLLBAR
+  SCROLLBAR,
+  PICTO_QUIT,
+  PICTO_JOIN
 }
 void loadAssets(){
   Assets[0] = loadImage("image/DSBackground.png");
@@ -83,6 +85,8 @@ void loadAssets(){
   Assets[30] = loadImage("image/Chat-Room.png");
   Assets[31] = loadImage("image/Picto-First-Message.png");
   Assets[32] = loadImage("image/ScrollBar.png");
+  Assets[33] = loadImage("image/Picto-Quit.png");
+  Assets[34] = loadImage("image/Picto-Join.png");
 }
 
 //audio asset initialization
@@ -93,6 +97,22 @@ public enum AUDIO_CODE{
 void loadSounds(){
   Audio[0]=minim.loadFile("audio/tick.wav");
   Audio[1]=minim.loadFile("audio/start.wav");
+}
+
+//state and animation definitions
+public enum State{
+  EXIT_PROGRAM,
+  LOAD_MENU,
+  MENU,
+  PICTO
+}
+public enum Animation{
+  NONE,
+  FADE_IN,
+  BEGIN_UI,
+  LOAD_PICTO,
+  START_PICTO,
+  PICTO_UI
 }
 
 //interact with assets
