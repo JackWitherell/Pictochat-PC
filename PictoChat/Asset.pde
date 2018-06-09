@@ -11,7 +11,7 @@ PImage Buffer;
 
 //startup
 void load(){
-  Assets=new PImage[37];
+  Assets=new PImage[41];
   loadAssets();
   Audio=new AudioPlayer[2];
   loadSounds();
@@ -56,8 +56,12 @@ public enum ASSET_CODE{
   CHAT_ROOM_INVALIDATE,
   PICTO_FIRST_MESSAGE,
   SCROLLBAR,
-  PICTO_QUIT,
-  PICTO_JOIN
+  PICTO_QUIT_DEFAULT,
+  PICTO_QUIT_CLICKED,
+  PICTO_QUIT_INVALIDATE,
+  PICTO_JOIN_DEFAULT,
+  PICTO_JOIN_CLICKED,
+  PICTO_JOIN_INVALIDATE
 }
 void loadAssets(){
   Assets[0] = loadImage("image/DSBackground.png");
@@ -89,8 +93,12 @@ void loadAssets(){
   Assets[32] = loadImage("image/ChatRoom-invalidate.png");
   Assets[33] = loadImage("image/Picto-First-Message.png");
   Assets[34] = loadImage("image/ScrollBar.png");
-  Assets[35] = loadImage("image/Picto-Quit.png");
-  Assets[36] = loadImage("image/Picto-Join.png");
+  Assets[35] = loadImage("image/Picto-Quit-default.png");
+  Assets[36] = loadImage("image/Picto-Quit-clicked.png");
+  Assets[37] = loadImage("image/Picto-Quit-invalidate.png");
+  Assets[38] = loadImage("image/Picto-Join-default.png");
+  Assets[39] = loadImage("image/Picto-Join-clicked.png");
+  Assets[40] = loadImage("image/Picto-Join-invalidate.png");
 }
 
 //audio asset initialization

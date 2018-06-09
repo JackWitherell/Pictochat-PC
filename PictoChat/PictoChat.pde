@@ -73,8 +73,8 @@ class Display{
               image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,288);
               image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,320);
               image(getImage(ASSET_CODE.PICTO_FIRST_MESSAGE),21,169);
-              image(getImage(ASSET_CODE.PICTO_QUIT),31,364);
-              image(getImage(ASSET_CODE.PICTO_JOIN),144,364);
+              image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT),31,364);
+              image(getImage(ASSET_CODE.PICTO_JOIN_DEFAULT),144,364);
               noTint();
               if(Program.animationCounter==0){
                 Program.animation=Animation.NONE;
@@ -89,21 +89,21 @@ class Display{
               image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,288);
               image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,320);
               image(getImage(ASSET_CODE.PICTO_FIRST_MESSAGE),21,169);
-              image(getImage(ASSET_CODE.PICTO_JOIN),144,364);
+              image(getImage(ASSET_CODE.PICTO_JOIN_DEFAULT),144,364);
               switch(Program.ButtonState[0]) {
               case 0:
-                image(getImage(ASSET_CODE.PICTO_QUIT),31,364);
+                image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT),31,364);
                 break;
               case 1:
-                image(getImage(ASSET_CODE.PICTO_CLICKED), 33, 265); //TODO START HERE
+                image(getImage(ASSET_CODE.PICTO_QUIT_CLICKED), 31, 364);
                 break;
               case 2:
-                image(getImage(ASSET_CODE.PICTO_INVALIDATE), 33, 265);
+                image(getImage(ASSET_CODE.PICTO_QUIT_INVALIDATE), 31, 364);
                 break;
               case 3:
-                Program.animation=Animation.NONE;//todo
+                Program.state=State.EXIT_PROGRAM;//todo
+                image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT),31,364);
                 Program.ButtonState[0]=0;
-                playAudio(AUDIO_CODE.START);
                 break;
               default:
                 break;
