@@ -11,7 +11,7 @@ PImage Buffer;
 
 //startup
 void load(){
-  Assets=new PImage[35];
+  Assets=new PImage[37];
   loadAssets();
   Audio=new AudioPlayer[2];
   loadSounds();
@@ -51,7 +51,9 @@ public enum ASSET_CODE{
   DATE_SELECTION,
   PICTOBACKGROUND,
   PICTO_MENU_BARS,
-  CHAT_ROOM,
+  CHAT_ROOM_DEFAULT,
+  CHAT_ROOM_CLICKED,
+  CHAT_ROOM_INVALIDATE,
   PICTO_FIRST_MESSAGE,
   SCROLLBAR,
   PICTO_QUIT,
@@ -82,11 +84,13 @@ void loadAssets(){
   Assets[27] = loadImage("image/Date_Selection.png");
   Assets[28] = loadImage("image/PictoChatBackground.png");
   Assets[29] = loadImage("image/Picto-Menu-Bars.png");
-  Assets[30] = loadImage("image/Chat-Room.png");
-  Assets[31] = loadImage("image/Picto-First-Message.png");
-  Assets[32] = loadImage("image/ScrollBar.png");
-  Assets[33] = loadImage("image/Picto-Quit.png");
-  Assets[34] = loadImage("image/Picto-Join.png");
+  Assets[30] = loadImage("image/ChatRoom-default.png");
+  Assets[31] = loadImage("image/ChatRoom-clicked.png");
+  Assets[32] = loadImage("image/ChatRoom-invalidate.png");
+  Assets[33] = loadImage("image/Picto-First-Message.png");
+  Assets[34] = loadImage("image/ScrollBar.png");
+  Assets[35] = loadImage("image/Picto-Quit.png");
+  Assets[36] = loadImage("image/Picto-Join.png");
 }
 
 //audio asset initialization
@@ -104,7 +108,7 @@ public enum State{
   EXIT_PROGRAM,
   LOAD_MENU,
   MENU,
-  PICTO
+  PICTO_MENU
 }
 public enum Animation{
   NONE,

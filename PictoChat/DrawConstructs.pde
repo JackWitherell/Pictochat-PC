@@ -46,8 +46,7 @@ void drawMenu() {
   image(getImage(ASSET_CODE.CALENDARBASE), 126, 31);
   image(getImage(ASSET_CODE.DSCARD), 33, 217);
   image(getImage(ASSET_CODE.GBAPAK), 33, 313);
-  if (Program.animation!=Animation.LOAD_PICTO) {
-    switch(Program.MenuPictoState) {
+  switch(Program.ButtonState[0]) {
     case 0:
       image(getImage(ASSET_CODE.PICTO_DEFAULT), 33, 265);
       break;
@@ -59,11 +58,12 @@ void drawMenu() {
       break;
     case 3:
       Program.animation=Animation.LOAD_PICTO;
+      Program.ButtonState[0]=0;
+      playAudio(AUDIO_CODE.START);
       Program.animationCounter=35;
       break;
     default:
       break;
-    }
   }
   image(getImage(ASSET_CODE.DSD_DEFAULT), 129, 265);
   image(getImage(ASSET_CODE.BRIGHTNESS_ON), 10, 367);
@@ -84,6 +84,6 @@ void drawMenu() {
   if (Program.animation==Animation.LOAD_PICTO) {
     Buffer=get();
     image(getImage(ASSET_CODE.PICTO_DEFAULT), 33, 265);
-    Program.state=State.PICTO;
+    Program.state=State.PICTO_MENU;
   }
 }
