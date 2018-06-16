@@ -47,23 +47,23 @@ void drawMenu() {
   image(getImage(ASSET_CODE.DSCARD), 33, 217);
   image(getImage(ASSET_CODE.GBAPAK), 33, 313);
   switch(Program.ButtonState[0]) {
-    case 0:
-      image(getImage(ASSET_CODE.PICTO_DEFAULT), 33, 265);
-      break;
-    case 1:
-      image(getImage(ASSET_CODE.PICTO_CLICKED), 33, 265);
-      break;
-    case 2:
-      image(getImage(ASSET_CODE.PICTO_INVALIDATE), 33, 265);
-      break;
-    case 3:
-      Program.animation=Animation.LOAD_PICTO;
-      Program.ButtonState[0]=0;
-      playAudio(AUDIO_CODE.START);
-      Program.animationCounter=35;
-      break;
-    default:
-      break;
+  case 0:
+    image(getImage(ASSET_CODE.PICTO_DEFAULT), 33, 265);
+    break;
+  case 1:
+    image(getImage(ASSET_CODE.PICTO_CLICKED), 33, 265);
+    break;
+  case 2:
+    image(getImage(ASSET_CODE.PICTO_INVALIDATE), 33, 265);
+    break;
+  case 3:
+    Program.animation=Animation.LOAD_PICTO;
+    Program.ButtonState[0]=0;
+    playAudio(AUDIO_CODE.START);
+    Program.animationCounter=35;
+    break;
+  default:
+    break;
   }
   image(getImage(ASSET_CODE.DSD_DEFAULT), 129, 265);
   image(getImage(ASSET_CODE.BRIGHTNESS_ON), 10, 367);
@@ -85,5 +85,177 @@ void drawMenu() {
     Buffer=get();
     image(getImage(ASSET_CODE.PICTO_DEFAULT), 33, 265);
     Program.state=State.PICTO_MENU;
+  }
+}
+
+void drawPictoMenu() {
+  switch(Program.animation) {
+  case LOAD_PICTO:
+    image(getImage(ASSET_CODE.DSBACKGROUND), 0, 0);
+    tint(255, (float(Program.animationCounter)/35)*255);
+    image(Buffer, 0, 0);
+    noTint();
+    image(getImage(ASSET_CODE.PICTO_DEFAULT), 33, 265-((35-Program.animationCounter)*10));
+    if (Program.animationCounter==0) {
+      Program.animation=Animation.START_PICTO;
+      Program.animationCounter=30;
+    }
+    break;
+  case START_PICTO:
+    tint(255, (float(30-Program.animationCounter)/30)*255);
+    image(getImage(ASSET_CODE.PICTOBACKGROUND), 0, 0);
+    noTint();
+    if (Program.animationCounter==0) {
+      Program.animation=Animation.PICTO_UI;
+      Program.animationCounter=30;
+    }
+    break;
+  case PICTO_UI:
+    image(getImage(ASSET_CODE.PICTOBACKGROUND), 0, 0);
+    tint(255, (float(30-Program.animationCounter)/30)*255);
+    image(getImage(ASSET_CODE.PICTO_MENU_BARS), 0, 192);
+    image(getImage(ASSET_CODE.SCROLLBAR), 0, 0);
+    image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 224);
+    image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 256);
+    image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 288);
+    image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 320);
+    image(getImage(ASSET_CODE.PICTO_FIRST_MESSAGE), 21, 169);
+    image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT), 31, 364);
+    image(getImage(ASSET_CODE.PICTO_JOIN_DEFAULT), 144, 364);
+    noTint();
+    if (Program.animationCounter==0) {
+      Program.animation=Animation.NONE;
+    }
+    break;
+  case NONE:
+    image(getImage(ASSET_CODE.PICTOBACKGROUND), 0, 0);
+    image(getImage(ASSET_CODE.SCROLLBAR), 0, 0);
+    image(getImage(ASSET_CODE.PICTO_FIRST_MESSAGE), 21, 169);
+    image(getImage(ASSET_CODE.PICTO_MENU_BARS), 0, 192);
+    switch(Program.ButtonState[0]) {
+    case 0:
+      image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT), 31, 364);
+      break;
+    case 1:
+      image(getImage(ASSET_CODE.PICTO_QUIT_CLICKED), 31, 364);
+      break;
+    case 2:
+      image(getImage(ASSET_CODE.PICTO_QUIT_INVALIDATE), 31, 364);
+      break;
+    case 3:
+      Program.state=State.EXIT_PROGRAM;//todo
+      image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT), 31, 364);
+      Program.ButtonState[0]=0;
+      break;
+    default:
+      break;
+    }
+    switch(Program.ButtonState[1]) {
+    case 0:
+      image(getImage(ASSET_CODE.PICTO_JOIN_DEFAULT), 144, 364);
+      break;
+    case 1:
+      image(getImage(ASSET_CODE.PICTO_JOIN_CLICKED), 144, 364);
+      break;
+    case 2:
+      image(getImage(ASSET_CODE.PICTO_JOIN_INVALIDATE), 144, 364);
+      break;
+    case 3:
+      Program.state=State.EXIT_PROGRAM;//todo
+      image(getImage(ASSET_CODE.PICTO_JOIN_DEFAULT), 144, 364);
+      Program.ButtonState[1]=0;
+      break;
+    default:
+      break;
+    }
+    switch(Program.ButtonState[2]) {
+    case 0:
+      image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 224);
+      break;
+    case 1:
+      image(getImage(ASSET_CODE.CHAT_ROOM_CLICKED), 31, 224);
+      break;
+    case 2:
+      image(getImage(ASSET_CODE.CHAT_ROOM_INVALIDATE), 31, 224);
+      break;
+    case 3:
+      image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 224);
+      Program.ButtonState[2]=0;
+      Program.animation=Animation.LOAD_ROOM;
+      playAudio(AUDIO_CODE.START);
+      Program.animationCounter=35;
+      break;
+    default:
+      break;
+    }
+    switch(Program.ButtonState[3]) {
+    case 0:
+      image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 256);
+      break;
+    case 1:
+      image(getImage(ASSET_CODE.CHAT_ROOM_CLICKED), 31, 256);
+      break;
+    case 2:
+      image(getImage(ASSET_CODE.CHAT_ROOM_INVALIDATE), 31, 256);
+      break;
+    case 3:
+      Program.state=State.EXIT_PROGRAM;//todo
+      image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 256);
+      Program.ButtonState[3]=0;
+      break;
+    default:
+      break;
+    }
+    switch(Program.ButtonState[4]) {
+    case 0:
+      image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 288);
+      break;
+    case 1:
+      image(getImage(ASSET_CODE.CHAT_ROOM_CLICKED), 31, 288);
+      break;
+    case 2:
+      image(getImage(ASSET_CODE.CHAT_ROOM_INVALIDATE), 31, 288);
+      break;
+    case 3:
+      Program.state=State.EXIT_PROGRAM;//todo
+      image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 288);
+      Program.ButtonState[4]=0;
+      break;
+    default:
+      break;
+    }
+    switch(Program.ButtonState[5]) {
+    case 0:
+      image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 320);
+      break;
+    case 1:
+      image(getImage(ASSET_CODE.CHAT_ROOM_CLICKED), 31, 320);
+      break;
+    case 2:
+      image(getImage(ASSET_CODE.CHAT_ROOM_INVALIDATE), 31, 320);
+      break;
+    case 3:
+      Program.state=State.EXIT_PROGRAM;//todo
+      image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT), 31, 320);
+      Program.ButtonState[5]=0;
+      break;
+    default:
+      break;
+    }
+    break;
+  case LOAD_ROOM:
+    tint(255,(float(35-Program.animationCounter)/35)*255);
+    image(getImage(ASSET_CODE.PICTOBACKGROUND), 0, 0);
+    noTint();
+    image(getImage(ASSET_CODE.SCROLLBAR), 0, 0);
+    image(getImage(ASSET_CODE.PICTO_FIRST_MESSAGE), 21, 169);
+    if (Program.animationCounter==0) {
+      Program.state=State.PICTO_CHAT;
+      Program.animation=Animation.START_CHAT;
+      Program.animationCounter=35;
+    }
+    break;
+  default:
+    break;
   }
 }

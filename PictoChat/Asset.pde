@@ -11,7 +11,7 @@ PImage Buffer;
 
 //startup
 void load(){
-  Assets=new PImage[41];
+  Assets=new PImage[58];
   loadAssets();
   Audio=new AudioPlayer[2];
   loadSounds();
@@ -61,7 +61,24 @@ public enum ASSET_CODE{
   PICTO_QUIT_INVALIDATE,
   PICTO_JOIN_DEFAULT,
   PICTO_JOIN_CLICKED,
-  PICTO_JOIN_INVALIDATE
+  PICTO_JOIN_INVALIDATE,
+  TOOL_PANEL,
+  KEYBOARD,
+  SEND,
+  COPY,
+  CLEAR,
+  PICTO_X,
+  SCROLL_UP,
+  SCROLL_DOWN,
+  TAB_PENCIL,
+  TAB_ERASER,
+  TAB_SIZE_LARGE,
+  TAB_SIZE_SMALL,
+  TAB_ENGLISH,
+  TAB_ACCENTS,
+  TAB_JAPAN,
+  TAB_SYMBOLS,
+  TAB_EMOTES
 }
 void loadAssets(){
   Assets[0] = loadImage("image/DSBackground.png");
@@ -99,6 +116,23 @@ void loadAssets(){
   Assets[38] = loadImage("image/Picto-Join-default.png");
   Assets[39] = loadImage("image/Picto-Join-clicked.png");
   Assets[40] = loadImage("image/Picto-Join-invalidate.png");
+  Assets[41] = loadImage("image/Tool-Panel.png");
+  Assets[42] = loadImage("image/KeyBoard.png");
+  Assets[43] = loadImage("image/Send-Button.png");
+  Assets[44] = loadImage("image/Copy-Button.png");
+  Assets[45] = loadImage("image/Clear-Button.png");
+  Assets[46] = loadImage("image/Quit-Picto.png");
+  Assets[47] = loadImage("image/Scroll-Up.png");
+  Assets[48] = loadImage("image/Scroll-Down.png");
+  Assets[49] = loadImage("image/Tab-Pencil.png");
+  Assets[50] = loadImage("image/Tab-Eraser.png");
+  Assets[51] = loadImage("image/Tab-Size-Large.png");
+  Assets[52] = loadImage("image/Tab-Size-Small.png");
+  Assets[53] = loadImage("image/Tab-English.png");
+  Assets[54] = loadImage("image/Tab-Accents.png");
+  Assets[55] = loadImage("image/Tab-Japan.png");
+  Assets[56] = loadImage("image/Tab-Symbols.png");
+  Assets[57] = loadImage("image/Tab-Emotes.png");
 }
 
 //audio asset initialization
@@ -116,7 +150,8 @@ public enum State{
   EXIT_PROGRAM,
   LOAD_MENU,
   MENU,
-  PICTO_MENU
+  PICTO_MENU,
+  PICTO_CHAT
 }
 public enum Animation{
   NONE,
@@ -124,7 +159,9 @@ public enum Animation{
   BEGIN_UI,
   LOAD_PICTO,
   START_PICTO,
-  PICTO_UI
+  PICTO_UI,
+  LOAD_ROOM,
+  START_CHAT
 }
 
 //interact with assets

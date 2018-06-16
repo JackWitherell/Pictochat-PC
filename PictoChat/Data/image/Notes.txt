@@ -1,0 +1,5 @@
+Message Canvas 21,0 234x192
+Message User Canvas 21,207 234x85
+Send 226,297 29x28
+Copy 226,328 29x21
+Clear 226,352, 29x22

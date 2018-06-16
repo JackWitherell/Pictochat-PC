@@ -5,6 +5,7 @@ static class Program{ //default states
   static Display display;
   static String name = "Todd Howard's DS";
   static int [] ButtonState=new int[10];
+  static int currentButton=-1;
   static boolean LClick=false;
   static private boolean lastFrame=false;
   Program(){
@@ -12,6 +13,7 @@ static class Program{ //default states
       ButtonState[0]=0;
     }
   }
+  
   static boolean mEvent(){
     if(!lastFrame&&LClick){
       lastFrame=true;
@@ -42,72 +44,30 @@ class Display{
           drawMenu();
           break;
         case PICTO_MENU: //todo: finish and move to drawconstructs
-          switch(Program.animation){
-            case LOAD_PICTO:
-              image(getImage(ASSET_CODE.DSBACKGROUND),0,0);
-              tint(255,(float(Program.animationCounter)/35)*255);
-              image(Buffer,0,0);
+          drawPictoMenu();
+          break;
+        case PICTO_CHAT:
+          switch(Program.animation) {
+            case START_CHAT:
+              tint(255,(float(35-Program.animationCounter)/35)*255);
+              image(getImage(ASSET_CODE.TOOL_PANEL),0,192);
+              image(getImage(ASSET_CODE.KEYBOARD),24,297);
+              image(getImage(ASSET_CODE.SEND),226,297);
+              image(getImage(ASSET_CODE.COPY),226,328);
+              image(getImage(ASSET_CODE.CLEAR),226,352);
+              image(getImage(ASSET_CODE.PICTO_X),245,193);
+              image(getImage(ASSET_CODE.SCROLL_UP),2,194);
+              image(getImage(ASSET_CODE.SCROLL_DOWN),2,209);
+              image(getImage(ASSET_CODE.TAB_PENCIL),2,230);
+              image(getImage(ASSET_CODE.TAB_ERASER),2,244);
+              image(getImage(ASSET_CODE.TAB_SIZE_LARGE),2,263);
+              image(getImage(ASSET_CODE.TAB_SIZE_SMALL),2,278);
+              image(getImage(ASSET_CODE.TAB_ENGLISH),2,299);
+              image(getImage(ASSET_CODE.TAB_ACCENTS),2,316);
+              image(getImage(ASSET_CODE.TAB_JAPAN),2,333);
+              image(getImage(ASSET_CODE.TAB_SYMBOLS),2,350);
+              image(getImage(ASSET_CODE.TAB_EMOTES),2,367);
               noTint();
-              image(getImage(ASSET_CODE.PICTO_DEFAULT),33,265-((35-Program.animationCounter)*10));
-              if(Program.animationCounter==0){
-                Program.animation=Animation.START_PICTO;
-                Program.animationCounter=30;
-              }
-              break;
-            case START_PICTO:
-              tint(255,(float(30-Program.animationCounter)/30)*255);
-              image(getImage(ASSET_CODE.PICTOBACKGROUND),0,0);
-              noTint();
-              if(Program.animationCounter==0){
-                Program.animation=Animation.PICTO_UI;
-                Program.animationCounter=30;
-              }
-              break;
-            case PICTO_UI:
-              image(getImage(ASSET_CODE.PICTOBACKGROUND),0,0);
-              tint(255,(float(30-Program.animationCounter)/30)*255);
-              image(getImage(ASSET_CODE.PICTO_MENU_BARS),0,192);
-              image(getImage(ASSET_CODE.SCROLLBAR),0,0);
-              image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,224);
-              image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,256);
-              image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,288);
-              image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,320);
-              image(getImage(ASSET_CODE.PICTO_FIRST_MESSAGE),21,169);
-              image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT),31,364);
-              image(getImage(ASSET_CODE.PICTO_JOIN_DEFAULT),144,364);
-              noTint();
-              if(Program.animationCounter==0){
-                Program.animation=Animation.NONE;
-              }
-              break;
-            case NONE:
-              image(getImage(ASSET_CODE.PICTOBACKGROUND),0,0);
-              image(getImage(ASSET_CODE.PICTO_MENU_BARS),0,192);
-              image(getImage(ASSET_CODE.SCROLLBAR),0,0);
-              image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,224);
-              image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,256);
-              image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,288);
-              image(getImage(ASSET_CODE.CHAT_ROOM_DEFAULT),31,320);
-              image(getImage(ASSET_CODE.PICTO_FIRST_MESSAGE),21,169);
-              image(getImage(ASSET_CODE.PICTO_JOIN_DEFAULT),144,364);
-              switch(Program.ButtonState[0]) {
-              case 0:
-                image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT),31,364);
-                break;
-              case 1:
-                image(getImage(ASSET_CODE.PICTO_QUIT_CLICKED), 31, 364);
-                break;
-              case 2:
-                image(getImage(ASSET_CODE.PICTO_QUIT_INVALIDATE), 31, 364);
-                break;
-              case 3:
-                Program.state=State.EXIT_PROGRAM;//todo
-                image(getImage(ASSET_CODE.PICTO_QUIT_DEFAULT),31,364);
-                Program.ButtonState[0]=0;
-                break;
-              default:
-                break;
-              }
               break;
             default:
               break;
@@ -137,24 +97,67 @@ void draw(){
   if(Program.mEvent()){
     switch(Program.state){ //use state true in buttonHandle for preliminary state
       case MENU:
-        buttonHandle(0,true,33,265,93,45); //pictostart
+        if(getCollision(33,265,93,45)){
+          Program.ButtonState[0]=1;
+          Program.currentButton=0;
+          Program.display.invalidate();
+        }
         break;
       case PICTO_MENU:
-        buttonHandle(0,true,31,364,80,18); //quit
-        buttonHandle(1,true,144,364,80,18); //join
-        buttonHandle(2,true,31,224,192,32); //chat room a
-        buttonHandle(3,true,31,256,192,32); //chat room b
-        buttonHandle(4,true,31,288,192,32); //chat room c
-        buttonHandle(5,true,31,320,192,32); //chat room d
+        switch(getCollision(31,364,80,18)==true?0:
+               getCollision(144,364,80,18)==true?1:
+               getCollision(31,224,192,32)==true?2:
+               getCollision(31,256,192,32)==true?3:
+               getCollision(31,288,192,32)==true?4:
+               getCollision(31,320,192,32)==true?5:-1){
+          case 0:
+            Program.ButtonState[0]=1;
+            Program.currentButton=0;
+            Program.display.invalidate();
+            break;
+          case 1:
+            Program.ButtonState[1]=1;
+            Program.currentButton=1;
+            Program.display.invalidate();
+            break;
+          case 2:
+            Program.ButtonState[2]=1;
+            Program.currentButton=2;
+            Program.display.invalidate();
+            break;
+          case 3:
+            Program.ButtonState[3]=1;
+            Program.currentButton=3;
+            Program.display.invalidate();
+            break;
+          case 4:
+            Program.ButtonState[4]=1;
+            Program.currentButton=4;
+            Program.display.invalidate();
+            break;
+          case 5:
+            Program.ButtonState[5]=1;
+            Program.currentButton=5;
+            Program.display.invalidate();
+            break;
+          default:
+          break;
+        }
         break;
       default:
         break;
     }
   }
-  if(Program.LClick){
+  else if(Program.LClick){
     switch(Program.state){ //use state false for case 1, state true for case 2
       case MENU:
-        buttonStateUpdate(0,33,265,93,45);
+        switch(Program.currentButton){
+          case 0:
+            buttonStateUpdate(0,33,265,93,45);
+            break;
+          default:
+            break;
+        }
         break;
       case PICTO_MENU:
         buttonStateUpdate(0,31,364,80,18); //quit
