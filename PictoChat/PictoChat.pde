@@ -1,3 +1,11 @@
+static class LastMouse{
+  static int x, y;
+  static public void upd(int mx,int my){
+    x=mx;
+    y=my;
+  }
+}
+
 static class Program{ //default states
   static State state=State.LOAD_MENU; //if nonvalid state program will exit.
   static Animation animation=Animation.FADE_IN;
@@ -68,7 +76,30 @@ class Display{
               image(getImage(ASSET_CODE.TAB_JAPAN),2,333);
               image(getImage(ASSET_CODE.TAB_SYMBOLS),2,350);
               image(getImage(ASSET_CODE.TAB_EMOTES),2,367);
+              image(getImage(ASSET_CODE.BLANK_MESSAGE),21,207);
+              image(Program.drawingCanvas,24,210);
               noTint();
+              break;
+            case NONE:
+              image(getImage(ASSET_CODE.TOOL_PANEL),0,192);
+              image(getImage(ASSET_CODE.KEYBOARD),24,297);
+              image(getImage(ASSET_CODE.SEND),226,297);
+              image(getImage(ASSET_CODE.COPY),226,328);
+              image(getImage(ASSET_CODE.CLEAR),226,352);
+              image(getImage(ASSET_CODE.PICTO_X),245,193);
+              image(getImage(ASSET_CODE.SCROLL_UP),2,194);
+              image(getImage(ASSET_CODE.SCROLL_DOWN),2,209);
+              image(getImage(ASSET_CODE.TAB_PENCIL),2,230);
+              image(getImage(ASSET_CODE.TAB_ERASER),2,244);
+              image(getImage(ASSET_CODE.TAB_SIZE_LARGE),2,263);
+              image(getImage(ASSET_CODE.TAB_SIZE_SMALL),2,278);
+              image(getImage(ASSET_CODE.TAB_ENGLISH),2,299);
+              image(getImage(ASSET_CODE.TAB_ACCENTS),2,316);
+              image(getImage(ASSET_CODE.TAB_JAPAN),2,333);
+              image(getImage(ASSET_CODE.TAB_SYMBOLS),2,350);
+              image(getImage(ASSET_CODE.TAB_EMOTES),2,367);
+              image(getImage(ASSET_CODE.BLANK_MESSAGE),21,207);
+              image(Program.drawingCanvas,24,210);
               break;
             default:
               break;
@@ -90,6 +121,8 @@ void setup(){
   Program.display = new Display();
   Program.display.invalidate();
   Program.drawingCanvas= createGraphics(228,80);
+  Program.drawingCanvas.beginDraw();
+  Program.drawingCanvas.endDraw();
   cal=new Cal();
   tint(255,0);
   noSmooth();
@@ -143,9 +176,19 @@ void draw(){
             Program.display.invalidate();
             break;
           default:
-          break;
-        }
+            break;
+          }
         break;
+      case PICTO_CHAT:
+        switch(getCollision(24,210,228,80)==true?0:-1){
+          case 0:
+            Program.ButtonState[0]=1;
+            Program.currentButton=0;
+            Program.display.invalidate();
+            break;
+          default:
+            break;
+        }
       default:
         break;
     }
@@ -162,12 +205,40 @@ void draw(){
         }
         break;
       case PICTO_MENU:
-        buttonStateUpdate(0,31,364,80,18); //quit
-        buttonStateUpdate(1,144,364,80,18); //join
-        buttonStateUpdate(2,31,224,192,32); //chat room a
-        buttonStateUpdate(3,31,256,192,32); //chat room b
-        buttonStateUpdate(4,31,288,192,32); //chat room c
-        buttonStateUpdate(5,31,320,192,32); //chat room d
+        switch(Program.currentButton){
+          case 0:
+            buttonStateUpdate(0,31,364,80,18); //quit
+            break;
+          case 1:
+            buttonStateUpdate(1,144,364,80,18); //join
+            break;
+          case 2:
+            buttonStateUpdate(2,31,224,192,32); //chat room a
+            break;
+          case 3:
+            buttonStateUpdate(3,31,256,192,32); //chat room b
+            break;
+          case 4:
+            buttonStateUpdate(4,31,288,192,32); //chat room c
+            break;
+          case 5:
+            buttonStateUpdate(5,31,320,192,32); //chat room d
+            break;
+          default:
+            break;
+        }
+        break;
+      case PICTO_CHAT:
+        switch(Program.currentButton){
+          case 0:
+            Program.drawingCanvas.beginDraw();
+            Program.drawingCanvas.line(LastMouse.x-24,LastMouse.y-210,mouseX-24,mouseY-210);
+            Program.drawingCanvas.endDraw();
+            Program.display.invalidate();
+            break;
+          default:
+            break;
+        }
         break;
       default:
         break;
@@ -186,4 +257,5 @@ void draw(){
     Program.display.invalidate();
   }
   //Program.display.invalidate(); //debug always render
+  LastMouse.upd(mouseX,mouseY);
 }

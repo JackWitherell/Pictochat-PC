@@ -11,7 +11,7 @@ PImage Buffer;
 
 //startup
 void load(){
-  Assets=new PImage[58];
+  Assets=new PImage[59];
   loadAssets();
   Audio=new AudioPlayer[2];
   loadSounds();
@@ -78,7 +78,8 @@ public enum ASSET_CODE{
   TAB_ACCENTS,
   TAB_JAPAN,
   TAB_SYMBOLS,
-  TAB_EMOTES
+  TAB_EMOTES,
+  BLANK_MESSAGE
 }
 void loadAssets(){
   Assets[0] = loadImage("image/DSBackground.png");
@@ -133,6 +134,7 @@ void loadAssets(){
   Assets[55] = loadImage("image/Tab-Japan.png");
   Assets[56] = loadImage("image/Tab-Symbols.png");
   Assets[57] = loadImage("image/Tab-Emotes.png");
+  Assets[58] = loadImage("image/Blank-Message.png");
 }
 
 //audio asset initialization
