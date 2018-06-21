@@ -7,6 +7,7 @@ static class Program{ //default states
   static int [] ButtonState=new int[10];
   static int currentButton=-1;
   static boolean LClick=false;
+  static PGraphics drawingCanvas;
   static private boolean lastFrame=false;
   Program(){
     for(int i=0; i<10; i++){
@@ -88,6 +89,7 @@ void setup(){
   load();
   Program.display = new Display();
   Program.display.invalidate();
+  Program.drawingCanvas= createGraphics(228,80);
   cal=new Cal();
   tint(255,0);
   noSmooth();
