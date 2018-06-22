@@ -16,6 +16,7 @@ static class Program{ //default states
   static int currentButton=-1;
   static boolean LClick=false;
   static PGraphics drawingCanvas;
+  static PGraphics nameTag;
   static private boolean lastFrame=false;
   Program(){
     for(int i=0; i<10; i++){
@@ -78,6 +79,7 @@ class Display{
               image(getImage(ASSET_CODE.TAB_EMOTES),2,367);
               image(getImage(ASSET_CODE.BLANK_MESSAGE),21,207);
               image(Program.drawingCanvas,24,210);
+              image(Program.nameTag,23,209);
               noTint();
               break;
             case NONE:
@@ -100,6 +102,7 @@ class Display{
               image(getImage(ASSET_CODE.TAB_EMOTES),2,367);
               image(getImage(ASSET_CODE.BLANK_MESSAGE),21,207);
               image(Program.drawingCanvas,24,210);
+              image(Program.nameTag,25,211);
               break;
             default:
               break;
@@ -123,6 +126,7 @@ void setup(){
   Program.drawingCanvas= createGraphics(228,80);
   Program.drawingCanvas.beginDraw();
   Program.drawingCanvas.endDraw();
+  Program.nameTag=renderNametag(int(textWidth(Program.name))+7,18);
   cal=new Cal();
   tint(255,0);
   noSmooth();

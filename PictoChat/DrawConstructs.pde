@@ -259,3 +259,45 @@ void drawPictoMenu() {
     break;
   }
 }
+
+PGraphics renderNametag(int w, int h){
+  PGraphics tag=createGraphics(w,h);
+  tag.beginDraw();
+  tag.loadPixels();
+  color hold=color(251);
+  tag.pixels[xy(0,0,w)]=hold;
+  for(int i=h-5;i>=0;i--){
+    tag.pixels[xy(w-1,i,w)]=hold;
+  }
+  for(int i=w-5;i>=0;i--){
+    tag.pixels[xy(i,h-1,w)]=hold;
+  }
+  tag.pixels[xy(w-2,h-4,w)]=hold;
+  tag.pixels[xy(w-3,h-3,w)]=hold;
+  tag.pixels[xy(w-4,h-2,w)]=hold;
+  hold=color(65,89,105);
+  tag.pixels[xy(1,0,w)]=hold;
+  tag.pixels[xy(0,1,w)]=hold;
+  for(int i=h-5;i>=0;i--){
+    tag.pixels[xy(w-2,i,w)]=hold;
+  }
+  for(int i=w-5;i>=0;i--){
+    tag.pixels[xy(i,h-2,w)]=hold;
+  }
+  tag.pixels[xy(w-3,h-4,w)]=hold;
+  tag.pixels[xy(w-4,h-3,w)]=hold;
+  hold=color(178,195,219);
+  for(int y=0; y<h-2; y++){
+    for(int x=0; x<w-2; x++){
+        if(!(((x==0||x==1)&&y==0)||(x==0&&y==1)||((x==w-3||x==w-4)&&y==h-3)||(x==w-3&&y==h-4))){
+          tag.pixels[xy(x,y,w)]=hold;
+        }
+    }
+  }
+  tag.updatePixels();
+  tag.fill(color(65,89,105));
+  tag.textFont(nds,16);
+  tag.text(Program.name,3,h-5);
+  tag.endDraw();
+  return tag;
+}

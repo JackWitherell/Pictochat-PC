@@ -16,6 +16,7 @@ void load(){
   Audio=new AudioPlayer[2];
   loadSounds();
   nds= createFont("Data/font/Nintendo-DS-BIOS.ttf",16);
+  textSize(16);
   textFont(nds);
 }
 

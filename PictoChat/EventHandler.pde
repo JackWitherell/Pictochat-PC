@@ -46,6 +46,10 @@ void buttonHandle(int button_id, boolean state, int x, int y, int wid, int hei){
   }
 }
 
+int xy(int x, int y, int w){ //for use when loading pixels from graphics buffer
+  return (y*w)+x;
+}
+
 void buttonStateUpdate(int button, int x, int y, int wid, int hei){
   switch(Program.ButtonState[button]){ //look at currently active button
     case 0: //if hasn't been pressed
