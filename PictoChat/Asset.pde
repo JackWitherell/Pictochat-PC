@@ -168,7 +168,8 @@ public enum Animation{
   START_PICTO,
   PICTO_UI,
   LOAD_ROOM,
-  START_CHAT
+  START_CHAT,
+  COLOR_PICKER
 }
 
 //interact with assets

@@ -20,6 +20,7 @@ static class Program{ //default states
   static PGraphics drawingCanvas;
   static PGraphics nameTag;
   static boolean penState=true;
+  static int penSize=2;
   static private boolean lastFrame=false;
   Program(){
     for(int i=0; i<10; i++){
@@ -90,8 +91,35 @@ class Display{
               image(Program.drawingCanvas,24,210);
               image(Program.nameTag,23,209);
               noTint();
+              if(Program.animationCounter==0){
+                Program.animation=Animation.NONE;
+              }
+              break;
+            case COLOR_PICKER:
+              tint(128,128,128);
+              image(Buffer,0,0);
+              noTint();
+              colorMode(RGB, 3, 4, 3);
+              stroke(3);
+              strokeWeight(1);
+              for(int x=0; x<4; x++){
+                for(int y=0; y<5; y++){
+                  for(int z=0; z<4; z++){
+                    fill(x-1,y-1,z-1);
+                    stroke(2);
+                    rect((x*32)+(z>1?128:0)+5,(y*38)+((z>1?z-2:z)*190)+10,24,24);
+                    fill(x,y,z);
+                    stroke(3);
+                    rect((x*32)+(z>1?128:0)+3,(y*38)+((z>1?z-2:z)*190)+8,24,24);
+                  }
+                }
+              }
+              colorMode(RGB,255,255,255);
               break;
             case NONE:
+              image(getImage(ASSET_CODE.PICTOBACKGROUND), 0, 0);
+              image(getImage(ASSET_CODE.PICTO_FIRST_MESSAGE), 21, 169);
+              image(getImage(ASSET_CODE.SCROLLBAR), 0, 0);
               image(getImage(ASSET_CODE.TOOL_PANEL),0,192);
               image(getImage(ASSET_CODE.KEYBOARD),24,297);
               image(getImage(ASSET_CODE.SEND),226,297);
@@ -117,7 +145,7 @@ class Display{
               image(getImage(ASSET_CODE.TAB_EMOTES),2,367);
               image(getImage(ASSET_CODE.BLANK_MESSAGE),21,207);
               image(Program.drawingCanvas,24,210);
-              image(Program.nameTag,25,211);
+              image(Program.nameTag,23,209);
               break;
             default:
               break;
@@ -140,7 +168,8 @@ void setup(){
   Program.display.invalidate();
   Program.drawingCanvas= createGraphics(228,80);
   Program.drawingCanvas.beginDraw();
-  Program.drawingCanvas.strokeWeight(2);
+  Program.drawingCanvas.strokeWeight(Program.penSize);
+  Program.drawingCanvas.colorMode(RGB, 3, 4, 3);
   Program.drawingCanvas.endDraw();
   Program.nameTag=renderNametag(int(textWidth(Program.name))+7,18);
   cal=new Cal();
@@ -200,29 +229,60 @@ void draw(){
           }
         break;
       case PICTO_CHAT:
-        switch(getCollision(24,210,228,80)==true?0:
-               getCollision(2,230,14,13)==true?1:
-               getCollision(2,244,14,13)==true?2:-1){
-          case 0:
-            Program.ButtonState[0]=1;
-            Program.currentButton=0;
-            Program.display.invalidate();
+        switch(Program.animation){
+          case NONE:
+            switch(getCollision(24,210,228,80)==true?0:
+                   getCollision(2,278,14,14)==true?1:
+                   getCollision(2,230,14,13)==true?2:
+                   getCollision(2,244,14,13)==true?3:-1){
+              case 0:
+                Program.ButtonState[0]=1;
+                Program.currentButton=0;
+                Program.display.invalidate();
+                break;
+              case 1:
+                Buffer=get();
+                Program.animation=Animation.COLOR_PICKER;
+                Program.display.invalidate();
+                break;
+              case 2:
+                Program.penState=true;
+                Program.drawingCanvas.stroke(SelectedColor);
+                Program.drawingCanvas.strokeWeight(Program.penSize);
+                Program.display.invalidate();
+                break;
+              case 3:
+                Program.penState=false;
+                if(Program.penSize>1){
+                  Program.drawingCanvas.strokeWeight(Program.penSize+2);
+                }
+                else{
+                  Program.drawingCanvas.strokeWeight(Program.penSize);
+                }
+                Program.display.invalidate();
+                break;
+              default:
+                break;
+            }
             break;
-          case 1:
-            Program.penState=true;
-            Program.display.invalidate();
-            break;
-          case 2:
-            Program.penState=false;
+          case COLOR_PICKER:
+            Program.animation=Animation.NONE;
+            if(((mouseX-3)%32<24&&mouseX>2)&&((mouseY-9)%38<24)&&mouseY>8){
+              colorMode(RGB, 3, 4, 3);
+              SelectedColor=color(((mouseX-3)/32)%4,((mouseY-8)/38)%5,((mouseY>height/2)?1:0)+((mouseX>width/2)?2:0));
+              Program.drawingCanvas.stroke(SelectedColor);
+              colorMode(RGB,255,255,255);
+            }
             Program.display.invalidate();
             break;
           default:
             break;
-        }
+          }
       default:
         break;
     }
   }
+  
   else if(Program.LClick){
     switch(Program.state){ //use state false for case 1, state true for case 2
       case MENU:
