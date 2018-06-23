@@ -1,3 +1,5 @@
+color SelectedColor=color(0,0,0);
+
 static class LastMouse{
   static int x, y;
   static public void upd(int mx,int my){
@@ -11,12 +13,13 @@ static class Program{ //default states
   static Animation animation=Animation.FADE_IN;
   static int animationCounter=24;
   static Display display;
-  static String name = "Todd Howard's DS";
+  static String name = "Todd Howard";
   static int [] ButtonState=new int[10];
   static int currentButton=-1;
   static boolean LClick=false;
   static PGraphics drawingCanvas;
   static PGraphics nameTag;
+  static boolean penState=true;
   static private boolean lastFrame=false;
   Program(){
     for(int i=0; i<10; i++){
@@ -68,8 +71,14 @@ class Display{
               image(getImage(ASSET_CODE.PICTO_X),245,193);
               image(getImage(ASSET_CODE.SCROLL_UP),2,194);
               image(getImage(ASSET_CODE.SCROLL_DOWN),2,209);
-              image(getImage(ASSET_CODE.TAB_PENCIL),2,230);
-              image(getImage(ASSET_CODE.TAB_ERASER),2,244);
+              if(Program.penState){
+                image(getImage(ASSET_CODE.TAB_PENCIL_SELECTED),2,230);
+                image(getImage(ASSET_CODE.TAB_ERASER_DEFAULT),2,244);
+              }
+              else{
+                image(getImage(ASSET_CODE.TAB_PENCIL_DEFAULT),2,230);
+                image(getImage(ASSET_CODE.TAB_ERASER_SELECTED),2,244);
+              }
               image(getImage(ASSET_CODE.TAB_SIZE_LARGE),2,263);
               image(getImage(ASSET_CODE.TAB_SIZE_SMALL),2,278);
               image(getImage(ASSET_CODE.TAB_ENGLISH),2,299);
@@ -91,8 +100,14 @@ class Display{
               image(getImage(ASSET_CODE.PICTO_X),245,193);
               image(getImage(ASSET_CODE.SCROLL_UP),2,194);
               image(getImage(ASSET_CODE.SCROLL_DOWN),2,209);
-              image(getImage(ASSET_CODE.TAB_PENCIL),2,230);
-              image(getImage(ASSET_CODE.TAB_ERASER),2,244);
+              if(Program.penState){
+                image(getImage(ASSET_CODE.TAB_PENCIL_SELECTED),2,230);
+                image(getImage(ASSET_CODE.TAB_ERASER_DEFAULT),2,244);
+              }
+              else{
+                image(getImage(ASSET_CODE.TAB_PENCIL_DEFAULT),2,230);
+                image(getImage(ASSET_CODE.TAB_ERASER_SELECTED),2,244);
+              }
               image(getImage(ASSET_CODE.TAB_SIZE_LARGE),2,263);
               image(getImage(ASSET_CODE.TAB_SIZE_SMALL),2,278);
               image(getImage(ASSET_CODE.TAB_ENGLISH),2,299);
@@ -125,6 +140,7 @@ void setup(){
   Program.display.invalidate();
   Program.drawingCanvas= createGraphics(228,80);
   Program.drawingCanvas.beginDraw();
+  Program.drawingCanvas.strokeWeight(2);
   Program.drawingCanvas.endDraw();
   Program.nameTag=renderNametag(int(textWidth(Program.name))+7,18);
   cal=new Cal();
@@ -184,10 +200,20 @@ void draw(){
           }
         break;
       case PICTO_CHAT:
-        switch(getCollision(24,210,228,80)==true?0:-1){
+        switch(getCollision(24,210,228,80)==true?0:
+               getCollision(2,230,14,13)==true?1:
+               getCollision(2,244,14,13)==true?2:-1){
           case 0:
             Program.ButtonState[0]=1;
             Program.currentButton=0;
+            Program.display.invalidate();
+            break;
+          case 1:
+            Program.penState=true;
+            Program.display.invalidate();
+            break;
+          case 2:
+            Program.penState=false;
             Program.display.invalidate();
             break;
           default:
@@ -236,6 +262,10 @@ void draw(){
         switch(Program.currentButton){
           case 0:
             Program.drawingCanvas.beginDraw();
+            if(!Program.penState){
+              Program.drawingCanvas.blendMode(REPLACE);
+              Program.drawingCanvas.stroke(0,0,0,0);
+            }
             Program.drawingCanvas.line(LastMouse.x-24,LastMouse.y-210,mouseX-24,mouseY-210);
             Program.drawingCanvas.endDraw();
             Program.display.invalidate();

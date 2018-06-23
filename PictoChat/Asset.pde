@@ -11,7 +11,7 @@ PImage Buffer;
 
 //startup
 void load(){
-  Assets=new PImage[59];
+  Assets=new PImage[61];
   loadAssets();
   Audio=new AudioPlayer[2];
   loadSounds();
@@ -71,8 +71,10 @@ public enum ASSET_CODE{
   PICTO_X,
   SCROLL_UP,
   SCROLL_DOWN,
-  TAB_PENCIL,
-  TAB_ERASER,
+  TAB_PENCIL_DEFAULT,
+  TAB_PENCIL_SELECTED,
+  TAB_ERASER_DEFAULT,
+  TAB_ERASER_SELECTED,
   TAB_SIZE_LARGE,
   TAB_SIZE_SMALL,
   TAB_ENGLISH,
@@ -126,16 +128,18 @@ void loadAssets(){
   Assets[46] = loadImage("image/Quit-Picto.png");
   Assets[47] = loadImage("image/Scroll-Up.png");
   Assets[48] = loadImage("image/Scroll-Down.png");
-  Assets[49] = loadImage("image/Tab-Pencil.png");
-  Assets[50] = loadImage("image/Tab-Eraser.png");
-  Assets[51] = loadImage("image/Tab-Size-Large.png");
-  Assets[52] = loadImage("image/Tab-Size-Small.png");
-  Assets[53] = loadImage("image/Tab-English.png");
-  Assets[54] = loadImage("image/Tab-Accents.png");
-  Assets[55] = loadImage("image/Tab-Japan.png");
-  Assets[56] = loadImage("image/Tab-Symbols.png");
-  Assets[57] = loadImage("image/Tab-Emotes.png");
-  Assets[58] = loadImage("image/Blank-Message.png");
+  Assets[49] = loadImage("image/Tab-Pencil-default.png");
+  Assets[50] = loadImage("image/Tab-Pencil-selected.png");
+  Assets[51] = loadImage("image/Tab-Eraser-default.png");
+  Assets[52] = loadImage("image/Tab-Eraser-selected.png");
+  Assets[53] = loadImage("image/Tab-Size-Large.png");
+  Assets[54] = loadImage("image/Tab-Size-Small.png");
+  Assets[55] = loadImage("image/Tab-English.png");
+  Assets[56] = loadImage("image/Tab-Accents.png");
+  Assets[57] = loadImage("image/Tab-Japan.png");
+  Assets[58] = loadImage("image/Tab-Symbols.png");
+  Assets[59] = loadImage("image/Tab-Emotes.png");
+  Assets[60] = loadImage("image/Blank-Message.png");
 }
 
 //audio asset initialization
