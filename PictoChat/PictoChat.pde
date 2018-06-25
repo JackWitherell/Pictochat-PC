@@ -100,7 +100,6 @@ class Display{
               image(Buffer,0,0);
               noTint();
               colorMode(RGB, 3, 4, 3);
-              stroke(3);
               strokeWeight(1);
               for(int x=0; x<4; x++){
                 for(int y=0; y<5; y++){
@@ -113,6 +112,25 @@ class Display{
                     rect((x*32)+(z>1?128:0)+3,(y*38)+((z>1?z-2:z)*190)+8,24,24);
                   }
                 }
+              }
+              colorMode(RGB,255,255,255);
+              break;
+            case PEN_SIZE:
+              tint(128,128,128);
+              image(Buffer,0,0);
+              noTint();
+              colorMode(RGB, 3, 4, 3);
+              strokeWeight(1);
+              for(int i=0; i<16; i++){
+                strokeWeight(1);
+                fill(1);
+                stroke(2);
+                rect(((i%4)*40)+57,((i/4)*40)+217,24,24);
+                fill(2);
+                stroke(3);
+                rect(((i%4)*40)+55,((i/4)*40)+215,24,24);
+                strokeWeight(i+1);
+                line(((i%4)*40)+55,((i/4)*40)+239,((i%4)*40)+79,((i/4)*40)+215);
               }
               colorMode(RGB,255,255,255);
               break;
@@ -233,8 +251,9 @@ void draw(){
           case NONE:
             switch(getCollision(24,210,228,80)==true?0:
                    getCollision(2,278,14,14)==true?1:
-                   getCollision(2,230,14,13)==true?2:
-                   getCollision(2,244,14,13)==true?3:-1){
+                   getCollision(2,263,14,14)==true?2:
+                   getCollision(2,230,14,13)==true?3:
+                   getCollision(2,244,14,13)==true?4:-1){
               case 0:
                 Program.ButtonState[0]=1;
                 Program.currentButton=0;
@@ -246,12 +265,17 @@ void draw(){
                 Program.display.invalidate();
                 break;
               case 2:
+                Buffer=get();
+                Program.animation=Animation.PEN_SIZE;
+                Program.display.invalidate();
+                break;
+              case 3:
                 Program.penState=true;
                 Program.drawingCanvas.stroke(SelectedColor);
                 Program.drawingCanvas.strokeWeight(Program.penSize);
                 Program.display.invalidate();
                 break;
-              case 3:
+              case 4:
                 Program.penState=false;
                 if(Program.penSize>1){
                   Program.drawingCanvas.strokeWeight(Program.penSize+2);
@@ -272,6 +296,15 @@ void draw(){
               SelectedColor=color(((mouseX-3)/32)%4,((mouseY-8)/38)%5,((mouseY>height/2)?1:0)+((mouseX>width/2)?2:0));
               Program.drawingCanvas.stroke(SelectedColor);
               colorMode(RGB,255,255,255);
+            }
+            Program.display.invalidate();
+            break;
+          case PEN_SIZE:
+            //rect(((i%4)*40)+55,((i/4)*40)+215,24,24);
+            Program.animation=Animation.NONE;
+            if((mouseX>54&&(mouseX-54)%40<26&&mouseX<200)&&(mouseY>214&&(mouseY-214)%40<26&&mouseY<360)){
+              Program.penSize=((mouseX-55)/40)+(((mouseY-215)/40)*4)+1;
+              Program.drawingCanvas.strokeWeight(Program.penSize);
             }
             Program.display.invalidate();
             break;
